@@ -1,4 +1,9 @@
 import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import r2_score
 
 
 def roll_the_dice(n_simulations=1000):
@@ -29,7 +34,10 @@ def pandas_query(df):
     Return the DataFrame containing the average size for each university
     type ordered by average size in ascending order.
     '''
-    pass
+
+    df = df.groupby('Type', as_index=False).mean()
+    df = df.sort_values(by='Size')
+    return df
 
 
 def df_to_numpy(df, y_column):
@@ -48,7 +56,8 @@ def df_to_numpy(df, y_column):
 
         output: np.array([[1, 3], [2, 4]]), np.array([5, 6])
     '''
-    pass
+    X = df.drop(columns=[y_column])
+    return (np.array(X), np.array(df[y_column]))
 
 
 def only_positive(arr):
@@ -67,7 +76,8 @@ def only_positive(arr):
     Use numpy methods to do this, full credit will not be awarded for a python
     for loop.
     '''
-    pass
+    col = arr.shape[1]
+    return np.array([row for row in arr if sum(i > 0 for i in row) == col])
 
 
 def add_column(arr, col):
@@ -81,7 +91,10 @@ def add_column(arr, col):
     E.g.  np.array([[1, 2], [3, 4]]), np.array([5, 6))
               ->  np.array([[1, 2, 5], [3, 4, 6]])
     '''
-    pass
+    df = pd.DataFrame(arr)
+    Col = pd.Series(col)
+    ans = pd.concat([df, Col], axis=1)
+    return(np.array(ans))
 
 
 def size_of_multiply(A, B):
@@ -96,7 +109,14 @@ def size_of_multiply(A, B):
 
     If A and B cannot be multiplied, return None.
     '''
-    pass
+    a_shape = A.shape
+    b_shape = B.shape
+    ans = []
+    if a_shape[1] == b_shape[0]:
+        ans = (a_shape[0], b_shape[1])
+    else:
+        ans = None
+    return ans
 
 
 def linear_regression(X_train, y_train, X_test, y_test):
@@ -117,4 +137,7 @@ def linear_regression(X_train, y_train, X_test, y_test):
     should be in this form:
     (12.3, 9.5), 0.567
     '''
-    pass
+    result = LinearRegression().fit(X_train, y_train)
+    ans = tuple(result.coef_)
+    r2 = r2_score(y_test, result.predict(X_test))
+    return(ans, r2)
