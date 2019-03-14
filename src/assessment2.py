@@ -1,3 +1,9 @@
+import numpy as np
+from collections import Counter
+from collections import defaultdict
+import pandas as pd
+
+
 def max_lists(list1, list2):
     '''
     INPUT: list, list
@@ -6,7 +12,7 @@ def max_lists(list1, list2):
     list1 and list2 have the same length. Return a list which contains the
     maximum element of each list for every index.
     '''
-    pass
+    return([i if i > j else j for i, j in zip(list1, list2)])
 
 
 def get_diagonal(mat):
@@ -26,7 +32,7 @@ def get_diagonal(mat):
 
     You may assume that the matrix is nonempty.
     '''
-    pass
+    return list(np.diag(np.array(mat)))
 
 
 def merge_dictionaries(d1, d2):
@@ -38,7 +44,9 @@ def merge_dictionaries(d1, d2):
     their associated values. If a key is in both dictionaries, the value should
     be the sum of the two values.
     '''
-    pass
+    A = Counter(d1)
+    B = Counter(d2)
+    return dict(A + B)
 
 
 def make_char_dict(filename):
@@ -52,7 +60,11 @@ def make_char_dict(filename):
     line number 1.  Characters which never are the first letter of a line do
     not need to be included in your dictionary.
     '''
-    pass
+    ans = defaultdict(list)
+    with open(filename) as f:
+        for i, line in enumerate(f):
+            ans[line[0]].append(i + 1)
+    return dict(ans)
 
 
 def pandas_add_increase_column(df):
@@ -63,7 +75,8 @@ def pandas_add_increase_column(df):
     Add a column to the DataFrame called 'Increase' which contains the
     amount that the median rent increased by from 2011 to 2014.
     '''
-    pass
+    df['Increase'] = df['med_2014'] - df['med_2011']
+    return df
 
 
 def pandas_only_given_state(df, state):
@@ -75,7 +88,8 @@ def pandas_only_given_state(df, state):
     state. Only include these columns:
         Neighborhood, City, med_2011, med_2014
     '''
-    pass
+    df = df[df.State == state]
+    return df[['Neighborhood', 'City', 'med_2011', 'med_2014']]
 
 
 def pandas_max_rent(df):
@@ -92,4 +106,6 @@ def pandas_max_rent(df):
     Your DataFrame should contain these columns:
         City, State, med_2011, med_2014
     '''
-    pass
+    df = df.drop(columns=['Neighborhood'])
+    ans = df.groupby(['City', 'State'], as_index=False).max()
+    return(ans)

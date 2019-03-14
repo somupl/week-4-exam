@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def roll_the_dice(n_simulations=1000):
     '''
     INPUT: INT
@@ -9,7 +12,10 @@ def roll_the_dice(n_simulations=1000):
     is an even number or a number greater than 7.  Your function should return
     an estimated probability, based on rolling the two dice n_simulations times.
     '''
-    pass
+    roll1 = np.random.randint(1, 7, n_simulations)
+    roll2 = np.random.randint(1, 7, n_simulations)
+    result = roll1 + roll2
+    return (sum((result > 7)) + sum((result < 7) & (result % 2 == 0))) / n_simulations
 
 
 def pandas_query(df):

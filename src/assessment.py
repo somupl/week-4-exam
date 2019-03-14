@@ -1,3 +1,8 @@
+from collections import defaultdict
+import numpy as np
+import pandas as pd
+
+
 def count_characters(string):
     '''
     INPUT: STRING
@@ -8,7 +13,7 @@ def count_characters(string):
     Characters with a count of 0 should not be included in the
     output dictionary.
     '''
-    pass
+    return {letter: string.count(letter) for letter in set(string)}
 
 
 def invert_dictionary(d):
@@ -22,7 +27,14 @@ def invert_dictionary(d):
     the set of d's keys which shared the same value.
     e.g. {'a': 2, 'b': 4, 'c': 2} => {2: {'a', 'c'}, 4: {'b'}}
     '''
-    pass
+    my_dict = defaultdict(list)
+    for x, y in d.items():
+        my_dict[y].append(x)
+
+    ans_dict = {}
+    for x, y in dict(my_dict).items():
+        ans_dict[x] = set(y)
+    return ans_dict
 
 
 def matrix_multiplication(A, B):
@@ -45,7 +57,27 @@ def matrix_multiplication(A, B):
 
     Please do not use numpy. Write your solution in straight python.
     '''
-    pass
+    a_shape = (len(A), len(A[0]))
+    b_shape = (len(B), len(B[0]))
+    if(a_shape == b_shape[:: -1]):
+        b_t = []
+        for col in range(b_shape[1]):
+            v = []
+            for row in range(b_shape[0]):
+                v.append(B[row][col])
+            b_t.append(v)
+
+        mat_mul = []
+        for row in range(a_shape[0]):
+            vec = []
+            vec = [sum([c1 * c2 for c1, c2 in zip(A[row], b_t[x])]) for x in range(a_shape[1])]
+            # vec.append(sum([c1 * c2 for c1, c2 in zip(A[row], b_t[0])]))
+            # vec.append(sum([c1 * c2 for c1, c2 in zip(A[row], b_t[1])]))
+            # vec.append(sum([c1 * c2 for c1, c2 in zip(A[row], b_t[2])]))
+            mat_mul.append(vec)
+        return(mat_mul)
+    else:
+        return
 
 
 def cookie_jar(a, b):
@@ -63,7 +95,7 @@ def cookie_jar(a, b):
     The cookie is chocolate.
     Return the probability that the cookie came from Jar A.
     '''
-    pass
+    return ((a * 0.5) / ((a * 0.5) + (b * 0.5)))
 
 
 def array_work(rows, cols, scalar, matrixA):
@@ -82,7 +114,7 @@ def array_work(rows, cols, scalar, matrixA):
             [5, 6],   *   [5, 5, 5]]
             [7, 8]]
     '''
-    pass
+    return matrixA @ np.array([scalar] * (rows * cols)).reshape(rows, cols)
 
 
 def boolean_indexing(arr, minimum):
@@ -98,7 +130,7 @@ def boolean_indexing(arr, minimum):
     In [1]: boolean_indexing([[3, 4, 5], [6, 7, 8]], 7)
     Out[1]: array([7, 8])
     '''
-    pass
+    return arr[arr >= minimum]
 
 
 def make_series(start, length, index):
@@ -119,7 +151,8 @@ def make_series(start, length, index):
     c    7
     dtype: int64
     '''
-    pass
+
+    return pd.Series(np.arange(start, start + length), index=index)
 
 
 def data_frame_work(df, colA, colB, colC):
@@ -130,4 +163,5 @@ def data_frame_work(df, colA, colB, colC):
     Insert a column (colC) into the dataframe that is the sum of colA and colB.
     Assume that df contains columns colA and colB and that these are numeric.
     '''
-    pass
+    df[colC] = df[colA] + df[colB]
+    return df
