@@ -1,0 +1,20 @@
+1.
+
+Modern laptops weigh 3 lbs on average, with a varience of 5 ounces.
+What's the probability of randomly selecting a laptop that weighs
+exactly 1.7 kg? What's the probability of randomly selecting one
+that weighs greater that 2.1 kg?
+
+
+2.
+
+You have a defective light switch. It appears that the probability of
+this light switch actually turning on a light is 37%. Let's say you
+turned the switch on 25 times, what is the probability that the light
+will actually turn on exactly 3 or 5 times?
+
+3.
+
+About 3 Uber vehicles come by your work every 15 minutes. What is the
+probability that exactly 7 Ubers would come by per hour?
+
